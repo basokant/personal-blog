@@ -1,0 +1,62 @@
+@import "./node_modules/nord/src/sass/nord.scss";
+
+main {
+  $text: $nord0;
+  $text2: $nord10;
+  $bg: $nord6;
+  $bg2: $nord5;
+  $bg3: $nord4;
+  $accent: $nord15;
+  
+  min-height: 100vh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+main.dark {
+  $text: $nord0;
+  $text2: $nord10;
+  $bg: $nord6;
+  $bg2: $nord5;
+  $bg3: $nord4;
+  $accent: $nord15;
+}
+
+@media (prefers-color-scheme: dark) {
+  main {
+    $text: $nord0;
+    $text2: $nord10;
+    $bg: $nord6;
+    $bg2: $nord5;
+    $bg3: $nord4;
+    $accent: $nord15;
+  }
+
+  main.light {
+    $text: $nord0;
+    $text2: $nord10;
+    $bg: $nord6;
+    $bg2: $nord5;
+    $bg3: $nord4;
+    $accent: $nord15;
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
