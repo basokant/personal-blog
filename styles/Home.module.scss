@@ -1,14 +1,14 @@
+@import './vars.scss';
+
 .container {
-  padding: 0 2rem;
+  background-color: $bg1;
 }
 
-
-
-.footer {
+.recent {
   display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
+  padding: 9vw;
+  flex-wrap: wrap;
+  background-color: $bg2;
+
+  @include angle(before, false, 2deg);
 }

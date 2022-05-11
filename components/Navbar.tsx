@@ -1,24 +1,21 @@
 import Logo from './Logo';
 import { Sun, Moon } from 'react-feather';
 import styles from '../styles/Navbar.module.scss'
+import Link from 'next/link';
 
 type NavbarProps = {
-    latest: string,
+    recent: string,
     posts: string,
     resume: string,
-    switchTheme(): void;
 };
 
-const Navbar = ({ latest, posts, resume }: NavbarProps) => {
+const Navbar = ({ recent, posts, resume }: NavbarProps) => {
     return (
-        <div className={styles.container}>
-            <div className={styles.links}>
-                <Logo />
-                <a href={latest}>Latest</a>
-                <a href={posts}>Posts</a>
-                <a href={resume} target="_blank">Resumé</a>
-            </div>
-            <Sun />
+        <div className={styles.links}>
+            <Logo />
+            <Link href={recent}>Latest</Link>
+            <Link href={posts}>Posts</Link>
+            <a href={resume} target="_blank">Resumé</a>
         </div>
     );
 }

@@ -1,3 +1,5 @@
+@import './vars.scss';
+
 .item {
     height: 10vh;
     overflow: visible;
@@ -8,21 +10,26 @@
     background-size: 10vh 10vh;
 }
 
-.container{
+.container {
     z-index: 3;
     position: relative;
     margin-top: 5.2vh;
+    background-color: transparent;
 
     .signature {
         z-index: -1;
         position: relative;
-        margin-left: 12px;
+        margin-left: 38px;
     }
 
     .name {
-        z-index: 3;
+        z-index: 1;
         position: relative;
         vertical-align: middle;
         margin-bottom: -5.2vh;
+        font-size: 1.3em;
+        font-weight: 500;
+        color: $component-bg;
+        white-space: pre;
     }
 }

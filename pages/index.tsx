@@ -1,17 +1,11 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.scss'
-import Navbar from '../components/Navbar'
-import { useState } from 'react'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import styles from '../styles/Home.module.scss';
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import PostCard from '../components/PostCard';
 
 const Home: NextPage = () => {
-  const [theme, setTheme] = useState('');
-
-  const switchTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-  }
 
   return (
     <div className={styles.container}>
@@ -21,23 +15,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={theme}>
-        <Navbar latest="" posts="" resume="./basokant_resume_april2022.pdf" switchTheme = {switchTheme}/>
-        
+      <main >
+        <Navbar recent="" posts="" resume="./basokant_resume_april2022.pdf" />
+        <Hero />
+        <div className={styles.recent}>
+          <PostCard transparent title="You Don't Need a UI Framework" link="" description="As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way."></PostCard>
+          <PostCard transparent title="You Don't Need a UI Framework" link="" description="As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way."></PostCard>
+          <PostCard transparent title="You Don't Need a UI Framework" link="" description="As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way."></PostCard>
+          <PostCard transparent title="You Don't Need a UI Framework" link="" description="As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way."></PostCard>
+        </div>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
