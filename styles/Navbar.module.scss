@@ -1,19 +1,39 @@
 @import './vars.scss';
 
-.links {
+.container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     padding: 0vh 10vw;
+    gap: 20px;
 
     a {
-        margin: 0px 20px;
         font-size: 0.9em;
         font-weight: 500;
     }
+}
+
+@media screen and (min-width: 1px) and (max-width: 1025px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 25px 10vw;
+        gap: 5px;
+    }
     
-    div {
-        margin-right: 20px;
+    .links {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+
+        a {
+            font-size: 0.9em;
+            font-weight: 500;
+        }
     }
 }

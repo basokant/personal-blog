@@ -1,11 +1,10 @@
 @import './vars.scss';
 
 .container {
-    width: 35vw;
-    // background-color: $bg2;
-    padding: 1vw 2vw;
+    background-color: $bg1;
+    padding: 30px 40px;
     border-radius: 15px;
-    margin: 1vw;
+    margin: 10px 5px;
 
     .header .desc {
         color: $text1;
@@ -14,10 +13,11 @@
     .header {
         font-size: 1.3em;
         font-weight: 600;
+        margin: 20px 0px;
     }
 
     .desc {
-        font-size: 0.9em;
+        font-size: 1.2em;
         font-weight: 400;
         line-height: 1.5;
     }
@@ -27,6 +27,15 @@
         font-style: italic;
         color: $accent;
         margin-top: 30px;
-        font-size: 0.9em
+        font-size: 1.2em;
+        font-weight: 500;
+        margin: 20px 0px;
+    }
+
+    transition: all ease 0.4s;
+
+    &:hover, &:focus {
+        transform: scale(1.03);
+        box-shadow: $shadow-elevation-high;
     }
 }

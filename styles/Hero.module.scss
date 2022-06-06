@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: row;
     padding: 0vh 10vw;
+    justify-content: space-between;
 
     * {
         flex: 1;
@@ -45,7 +46,7 @@
     }
 
     .link {
-        padding: 20px;
+        padding: 20px 0px;
         font-size: 1.5em;
         font-weight: 600;
         color: $text2;
@@ -59,6 +60,7 @@
     }
 
     .btn,.link,.socialBtn {
+        display: inline-block;
         transition: all .2s ease-in-out;
         user-select: none; /* supported by Chrome and Opera */
         -webkit-user-select: none; /* Safari */
@@ -67,11 +69,17 @@
         -ms-user-select: none;
     }
 
-    .btn:active, .btn:hover {
+    .btn:hover {
         background-color: $accent;
+        transform: translateY(-3px);
+        box-shadow: $shadow-elevation-medium;
     }
 
-    .link:active, .link:hover {
+    .btn:active {
+        transform: translateY(4px);
+    }
+
+    .link:active, .link:hover, .link:focus {
         text-decoration: underline $accent 5px;
     }
 }
@@ -80,11 +88,12 @@
     vertical-align: middle;
     display: flex;
     align-items: center;
-
+    justify-content: flex-end;
+    
     .image {
         object-fit: contain;
-	    animation: float 6s ease-in-out infinite;
     }
+    animation: float 6s ease-in-out infinite;
 }
 
 
@@ -98,4 +107,34 @@
 	100% {
 		transform: translatey(0px);
 	}
+}
+
+.mailIcon {
+    margin-right: 15px;
+    margin-bottom: -4px;
+}
+
+@media screen and (min-width: 1px) and (max-width: 1025px) {
+    // .col2 {
+    //     position: absolute;
+    //     z-index: -1;
+    // }
+
+    .mailIcon {
+        margin-right: 0px;
+    }
+
+    .col1 {
+        .welcome {
+            font-size: 2.8em;
+        }
+
+        .desc {
+            font-size: 1.3em;
+        }
+
+        .btn, .link {
+            font-size: 1.2em;
+        }
+    }
 }

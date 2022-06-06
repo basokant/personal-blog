@@ -5,10 +5,40 @@
 }
 
 .recent {
-  display: flex;
-  padding: 9vw;
-  flex-wrap: wrap;
   background-color: $bg2;
-
+  padding: 10vw;
   @include angle(before, false, 2deg);
+  
+  
+  h2 {
+    font-size: 1.25em;
+    letter-spacing: .3rem;
+    color: $component-bg;
+    margin-left: 15px;
+  }
+}
+
+.recentPosts {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .category {
+    border: none;
+    color: $bg1;
+    background-color: $component-bg;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 1.3em;
+    font-weight: 600;
+    border-radius: 300px;
+    margin: 10px 15px;
+    white-space: pre;
+  }
 }

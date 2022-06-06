@@ -3,14 +3,19 @@
 .item {
     height: 10vh;
     overflow: visible;
-    stroke: #D8DEE9;
+    stroke: #d3d8e3;
     stroke-width: 15;
     stroke-linejoin: round;
     stroke-linecap: round;
     background-size: 10vh 10vh;
 }
 
+.logo {
+    cursor: pointer;
+}
+
 .container {
+    display: block;
     z-index: 3;
     position: relative;
     margin-top: 5.2vh;
@@ -19,7 +24,7 @@
     .signature {
         z-index: -1;
         position: relative;
-        margin-left: 38px;
+        margin-left: 34px;
     }
 
     .name {
