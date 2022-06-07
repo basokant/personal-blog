@@ -16,14 +16,14 @@ const Navbar = ( {isDesktop}: NavbarProps ) => {
 
             { isDesktop && 
                 <>
-                    <Link className={styles.link} href="/posts">Posts</Link>
+                    <Link className={styles.link} href="/blog">Blog</Link>
                     <a className={styles.link} href="/basokant_resume_april2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
                 </>
             }
 
             { !isDesktop && 
                 <div className={styles.links}>
-                    <Link className={styles.link} href="/posts">Posts</Link>
+                    <Link className={styles.link} href="/blog">Blog</Link>
                     <a className={styles.link} href="/basokant_resume_april2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
                 </div>
             }

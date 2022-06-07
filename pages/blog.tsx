@@ -7,7 +7,7 @@ import SearchBar from '../components/SearchBar';
 import useViewport from "../hooks/useViewport";
 import styles from "../styles/Posts.module.scss";
 
-const Posts: NextPage = () => {
+const Blog: NextPage = () => {
 
     const {isMobile, isTablet, isDesktop} = useViewport();
     const [input, setInput] = useState("");
@@ -37,4 +37,4 @@ const Posts: NextPage = () => {
 
 }
 
-export default Posts;
+export default Blog;
