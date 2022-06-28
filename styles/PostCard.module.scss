@@ -1,28 +1,36 @@
 @import './vars.scss';
 
+.desc {
+    word-wrap: break-all;
+    overflow-wrap: anywhere;
+}
+
 .container {
     background-color: $bg1;
     padding: 30px 40px;
     border-radius: 15px;
-    margin: 10px 5px;
+    margin: 10px;
+    will-change: transform;
 
     .header .desc {
         color: $text1;
     }
 
-    .header {
-        font-size: 1.3em;
-        font-weight: 600;
-        margin: 20px 0px;
+    .date {
+        margin: 8px 0px;
+        font-size: 1em;
+        color: $component-bg;
     }
 
+    
     .desc {
         font-size: 1.2em;
         font-weight: 400;
         line-height: 1.5;
+        word-wrap: break-all;
     }
-
-    .link {
+    
+    a {
         display: block;
         font-style: italic;
         color: $accent;
@@ -30,6 +38,28 @@
         font-size: 1.2em;
         font-weight: 500;
         margin: 20px 0px;
+    }
+
+    .title {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin: 20px 0px;
+        margin-bottom: 0px;
+    }
+    a.category {
+        display: inline-block;
+        border: none;
+        color: $bg1;
+        background-color: $component-bg;
+        text-decoration: none;
+        padding: 8px 10px;
+        font-size: 0.8em;
+        font-weight: 600;
+        font-style: normal;
+        border-radius: 300px;
+        margin: 0px;
+        margin-left: 0px;
+        white-space: pre;
     }
 
     transition: all ease 0.4s;
