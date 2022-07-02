@@ -7,34 +7,39 @@ import SearchBar from '../components/SearchBar';
 import useViewport from "../hooks/useViewport";
 import styles from "../styles/Blog.module.scss";
 import PostCard from '../components/PostCard';
-import getPosts from '../helpers/getPosts';
 import dateToString from '../helpers/dateToString';
-import sortByRecent from '../helpers/sortByRecent';
 import getCategories from '../helpers/getCategories';
+import getLatestPosts from '../helpers/getLatestPosts';
 
 type Posts = {
     slug: string;
     data: {
-      title: string;
-      date: string;
-      description: string;
-      category: string;
+        title: string;
+        date: string;
+        description: string;
+        category: string;
     }
-  }
-  
-  type BlogProps = {
+}
+
+type BlogProps = {
     posts: Posts[];
     categories: string[];
-  }
+}
 
 const Blog = ({ posts, categories }: BlogProps) => {
 
     const {isMobile, isTablet, isDesktop} = useViewport();
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState('');
 
-    posts = sortByRecent(posts);
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        setInput(params.get("q") || "");
+    }, [])
+    
     const matches = posts.filter(element => {
-        if (element.data.title.toLowerCase().includes(input) || element.data.description.toLowerCase().includes(input) || element.data.category.toLowerCase().includes(input)) {
+        const keyword = input.toLowerCase();
+        if (element.data.title.toLowerCase().includes(keyword) || element.data.description.toLowerCase().includes(keyword) || element.data.category.toLowerCase().includes(keyword)) {
             return true;
         }
     })
@@ -79,9 +84,9 @@ const Blog = ({ posts, categories }: BlogProps) => {
 
 export default Blog;
 
-export const getStaticProps = () => {
-  const posts = getPosts();
-  const categories = getCategories();
+export async function getStaticProps() {
+  const posts = await getLatestPosts({});
+  const categories = await getCategories();
 
   return {
     props: {

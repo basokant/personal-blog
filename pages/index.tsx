@@ -10,10 +10,12 @@ import getPosts from '../helpers/getPosts';
 import dateToString from '../helpers/dateToString';
 import sortByRecent from '../helpers/sortByRecent';
 import getCategories from '../helpers/getCategories';
+import Link from 'next/link';
+import getLatestPosts from '../helpers/getLatestPosts';
 
 const RECENT_POSTS = 8;
 
-type Posts = {
+type Post = {
   slug: string;
   data: {
     title: string;
@@ -24,17 +26,13 @@ type Posts = {
 }
 
 type HomeProps = {
-  posts: Posts[];
+  posts: Post[];
   categories: string[];
 }
 
 const Home = ( { posts, categories }: HomeProps ) => {
 
   const {isMobile, isTablet, isDesktop} = useViewport();
-
-  posts = sortByRecent(posts)
-
-  const recentPosts = posts.slice(0,RECENT_POSTS);
 
   return (
     <div className={styles.container}>
@@ -49,7 +47,7 @@ const Home = ( { posts, categories }: HomeProps ) => {
         <Hero isDesktop={isDesktop} />
         <div className={styles.recent}>
           <h2>RECENTLY PUBLISHED</h2>
-            {recentPosts.map((post) => (
+            {posts.map((post) => (
               <PostCard
                 key={post.slug}
                 transparent
@@ -63,7 +61,7 @@ const Home = ( { posts, categories }: HomeProps ) => {
             ))}
           <h2>CATEGORIES</h2>
           <div className={styles.categories}>
-            {categories.map((category, index) => <a key={index} className={styles.category} href="">{category}</a>)}
+            {categories.map((category, index) => <Link key={index} className={styles.category} href={`/blog?q=${category}`}>{category}</Link>)}
           </div>
         </div>
       </main>
@@ -76,9 +74,9 @@ const Home = ( { posts, categories }: HomeProps ) => {
 
 export default Home
 
-export const getStaticProps = () => {
-  const posts = getPosts();
-  const categories = getCategories();
+export async function getStaticProps() {
+  const posts = await getLatestPosts({limit: RECENT_POSTS});
+  const categories = await getCategories();
 
   return {
     props: {

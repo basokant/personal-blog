@@ -2,7 +2,7 @@ import matter from "gray-matter";
 import fs from "fs";
 import path from "path";
 
-export default function getPosts()  {
+export default async function getPosts()  {
     const list = fs.readdirSync(path.join("posts"));
 
     const files = list.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
@@ -23,5 +23,13 @@ export default function getPosts()  {
 
     console.log(allPostsData);
 
-    return allPostsData;
+    const publishedPosts = allPostsData.filter((post) => {
+        if (post.data.isPublished == null) {
+            return false;
+        }
+        
+        return post.data.isPublished;
+    })
+
+    return publishedPosts;
 }

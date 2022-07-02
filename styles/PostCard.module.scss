@@ -30,7 +30,7 @@
         word-wrap: break-all;
     }
     
-    a {
+    a.link {
         display: block;
         font-style: italic;
         color: $accent;
@@ -46,6 +46,7 @@
         margin: 20px 0px;
         margin-bottom: 0px;
     }
+    
     a.category {
         display: inline-block;
         border: none;

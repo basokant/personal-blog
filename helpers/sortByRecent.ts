@@ -1,14 +1,14 @@
-type Posts = {
-    slug: string;
-    data: {
-      title: string;
-      date: string;
-      description: string;
-      category: string;
-    }
+type Post = {
+  slug: string;
+  data: {
+    title: string;
+    date: string;
+    description: string;
+    category: string;
   }
+}
 
-export default function sortByRecent(posts: Posts[]) {
+export default function sortByRecent(posts: Post[]) {
     return posts.sort((post1, post2) => {
         const d1 = Date.parse(post1.data.date);
         const d2 = Date.parse(post2.data.date);
