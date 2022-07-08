@@ -4,10 +4,16 @@ import sortByRecent from "./sortByRecent";
 type Post = {
     slug: string;
     data: {
-      title: string;
-      date: string;
-      description: string;
-      category: string;
+        title: string;
+        date: string;
+        description: string;
+        category: string;
+        readingTime: {
+            text: string,
+            minutes: number,
+            time: number,
+            words: number
+        }
     }
 }
 

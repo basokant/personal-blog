@@ -6,9 +6,8 @@ import Hero from '../components/Hero';
 import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import useViewport from '../hooks/useViewport';
-import getPosts from '../helpers/getPosts';
+
 import dateToString from '../helpers/dateToString';
-import sortByRecent from '../helpers/sortByRecent';
 import getCategories from '../helpers/getCategories';
 import Link from 'next/link';
 import getLatestPosts from '../helpers/getLatestPosts';
