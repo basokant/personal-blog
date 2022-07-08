@@ -7,9 +7,29 @@ import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import useViewport from '../hooks/useViewport';
 
-const Home: NextPage = () => {
+import dateToString from '../helpers/dateToString';
+import getCategories from '../helpers/getCategories';
+import Link from 'next/link';
+import getLatestPosts from '../helpers/getLatestPosts';
 
-  const categories: String[] = ["React", "Animation", "CSS", "Git", "DSA"];
+const RECENT_POSTS = 8;
+
+type Post = {
+  slug: string;
+  data: {
+    title: string;
+    date: string;
+    description: string;
+    category: string;
+  }
+}
+
+type HomeProps = {
+  posts: Post[];
+  categories: string[];
+}
+
+const Home = ( { posts, categories }: HomeProps ) => {
 
   const {isMobile, isTablet, isDesktop} = useViewport();
 
@@ -26,15 +46,21 @@ const Home: NextPage = () => {
         <Hero isDesktop={isDesktop} />
         <div className={styles.recent}>
           <h2>RECENTLY PUBLISHED</h2>
-          <div className={styles.recentPosts}>
-            <PostCard transparent title="You Don't Need a UI Framework" link="" >As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way.</PostCard>
-            <PostCard transparent title="You Don't Need a UI Framework" link="" >As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way.</PostCard>
-            <PostCard transparent title="You Don't Need a UI Framework" link="" >As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way.</PostCard>
-            <PostCard transparent title="You Don't Need a UI Framework" link="" >As developers, it can be tempting to grab a pre-styled UI framework like Material UI or Bootstrap. Seems like a great way to outsource design and save a bunch of time, right? In my experience, this is an unrealistic expectation, and things don't quite work out that way.</PostCard>
-          </div>
-          <h2>TOP CATEGORIES</h2>
+            {posts.map((post) => (
+              <PostCard
+                key={post.slug}
+                transparent
+                title={post.data.title}
+                link={`/blog/${post.slug}`}
+                date={dateToString(new Date(post.data.date))}
+                category={post.data.category}
+              >
+                {post.data.description}
+              </PostCard>
+            ))}
+          <h2>CATEGORIES</h2>
           <div className={styles.categories}>
-            {categories.map((category, index) => <a key={index} className={styles.category} href="">{category}</a>)}
+            {categories.map((category, index) => <Link key={index} className={styles.category} href={`/blog?q=${category}`}>{category}</Link>)}
           </div>
         </div>
       </main>
@@ -46,3 +72,15 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getStaticProps() {
+  const posts = await getLatestPosts({limit: RECENT_POSTS});
+  const categories = await getCategories();
+
+  return {
+    props: {
+      posts,
+      categories,
+    },
+  };
+};

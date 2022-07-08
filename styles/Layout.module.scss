@@ -1,0 +1,25 @@
+@import './vars.scss';
+
+.container {
+    padding: 5vh 25vw;
+    padding-bottom: 20vh;
+    background-color: $bg1;
+
+    a {
+        color: $component-bg;
+        text-decoration: underline;
+        font-weight: 550;
+        text-underline-offset: 2px;
+        text-decoration-thickness: 3px;
+    }
+
+    a:hover {
+        transform: translateY(10px);
+    }
+}
+
+@media screen and (min-width: 1px) and (max-width: 1025px) {
+    .container {
+        padding: 10vw;
+    }
+}

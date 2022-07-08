@@ -14,7 +14,9 @@
     font-size: 1.25em;
     letter-spacing: .3rem;
     color: $component-bg;
+    margin: 30px;
     margin-left: 15px;
+    margin-top: 40px;
   }
 }
 
@@ -29,7 +31,7 @@
   flex-direction: row;
   flex-wrap: wrap;
 
-  .category {
+  a {
     border: none;
     color: $bg1;
     background-color: $component-bg;
