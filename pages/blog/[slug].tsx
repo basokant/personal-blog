@@ -30,6 +30,7 @@ import useViewport from "../../hooks/useViewport";
 import styles from "../../styles/Post.module.scss";
 import YouTube from "../../components/youtube";
 import Logo from "../../components/Logo";
+import Spicy from "../../components/spicy";
 
 type PostProps = {
   mdxSource: MDXRemoteSerializeResult,
@@ -46,7 +47,7 @@ type PostProps = {
 const Post = ({ mdxSource, frontmatter }: PostProps) => {
   const { isMobile, isTablet, isDesktop } = useViewport();
 
-  const components = { YouTube, Logo }
+  const components = { YouTube, Logo, Spicy }
 
   return (
     <div className={styles.container}>

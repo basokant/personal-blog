@@ -1,10 +1,11 @@
 import Video from 'react-youtube';
+import styles from '../styles/youtube.module.scss';
 
 const YouTube = ({ url }: {url: string}) => {
   const videoID = youtube_parser(url);
 
   const opts = {
-      height: '390',
+      height: '360',
       width: '640',
       playerVars: {
         // https://developers.google.com/youtube/player_parameters
@@ -12,7 +13,11 @@ const YouTube = ({ url }: {url: string}) => {
       },
   };
 
-  return <Video videoId={videoID} opts={opts}/>
+  return (
+    <div className={styles.container} >
+      <Video videoId={videoID} opts={opts} className={styles.iframe}/>
+    </div>
+  )
 }
 
 function youtube_parser(url: string): string{
