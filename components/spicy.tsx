@@ -6,7 +6,7 @@ type SpicyProps = {
 
 const Spicy = ({children}: SpicyProps) => {
     return (
-        <p style={{fontFamily: "sriracha"}}>{children}</p>
+        <span style={{fontFamily: "sriracha"}}>{children}</span>
     )
 }
 

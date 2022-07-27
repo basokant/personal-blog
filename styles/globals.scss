@@ -44,6 +44,44 @@ h1, h2 {
   padding: 5px 0;
 }
 
+hr {
+  border: 2px solid $text1;
+  border-radius: 5px;
+  margin: 30px 0px;
+}
+
+details { 
+  border-radius: 5px;
+  background-color: $bg2;
+  padding: 20px 30px;
+  box-shadow: -5px 0px 0px 0px $accent;
+}
+
+details summary > * {
+  display: inline;
+}
+
+details > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+details>summary::-webkit-details-marker {
+  display: none;
+}
+
+details>summary::before {
+  content: "\00a0\00a0\00a0";
+}
+
+details[open]>summary::before {
+  content: '\00a0\00a0\00a0';
+}
+
+details[open]>summary {
+  margin-bottom: 0.5rem;
+}
+
 ol {
   list-style: none;
   counter-reset: my-awesome-counter;
@@ -268,6 +306,52 @@ code {
        url('../fonts/sriracha-v10-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+/* fira-code-300 - latin */
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 300;
+  src: local(''),
+       url('../fonts/fira-code-v21-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-code-v21-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* fira-code-500 - latin */
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 500;
+  src: local(''),
+       url('../fonts/fira-code-v21-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-code-v21-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* fira-code-regular - latin */
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+       url('../fonts/fira-code-v21-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-code-v21-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* fira-code-600 - latin */
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 600;
+  src: local(''),
+       url('../fonts/fira-code-v21-latin-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-code-v21-latin-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* fira-code-700 - latin */
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+       url('../fonts/fira-code-v21-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/fira-code-v21-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
@@ -423,6 +507,9 @@ sup {
 
 img {
   border-style: none;
+  display : inline-block;
+  vertical-align: middle;
+  max-width: 100%;
 }
 
 /* Forms

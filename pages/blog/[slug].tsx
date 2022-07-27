@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
@@ -23,14 +23,24 @@ import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Layout from "../../components/Layout";
 import Navbar from "../../components/Navbar";
+import ViewCounter from "../../components/ViewCounter";
 import getPost from "../../helpers/getPost";
 import getPosts from "../../helpers/getPosts";
 import useViewport from "../../hooks/useViewport";
 
 import styles from "../../styles/Post.module.scss";
-import YouTube from "../../components/youtube";
+
 import Logo from "../../components/Logo";
-import Spicy from "../../components/spicy";
+import Spicy from "../../components/Spicy";
+import Sparkles from "../../components/Sparkles";
+import Info from "../../components/Info";
+import Accordion from "../../components/Accordion";
+import YouTube from "../../components/youtube";
+import CodePen from "../../components/CodePen";
+import Replit from "../../components/Replit";
+import AudioPlayer from "react-audio-player";
+
+import initializePosts from "../../helpers/initializePosts";
 
 type PostProps = {
   mdxSource: MDXRemoteSerializeResult,
@@ -41,13 +51,14 @@ type PostProps = {
     category: string,
     isPublished: boolean,
     readingTime: ReadTimeResults,
+    slug: string,
   }
 };
 
 const Post = ({ mdxSource, frontmatter }: PostProps) => {
   const { isMobile, isTablet, isDesktop } = useViewport();
 
-  const components = { YouTube, Logo, Spicy }
+  const components = { Logo, Spicy, Sparkles, Info, Accordion, YouTube, CodePen, Replit, AudioPlayer };
 
   return (
     <div className={styles.container}>
@@ -67,6 +78,7 @@ const Post = ({ mdxSource, frontmatter }: PostProps) => {
       <main>
         <Navbar isDesktop={isDesktop} sticky />
         <Header
+          slug={frontmatter.slug}
           title={frontmatter.title}
           category={frontmatter.category}
           date={frontmatter.date}
@@ -136,7 +148,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         mdxSource,
         frontmatter: {
           ...data,
-          readingTime: readingTime(content)
+          readingTime: readingTime(content),
+          slug,
         }
       }
     }
@@ -145,7 +158,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       mdxSource: "",
-      frontmatter: {}
+      frontmatter: {},
     },
   };
 }
@@ -157,7 +170,10 @@ export async function getStaticPaths() {
     return { params: { slug: post.slug } };
   });
 
-  console.log(paths);
+  const slugs = posts.map((post) => post.slug)
+  initializePosts(slugs);
+
+  console.log(slugs);
 
   return {
     paths: paths,
