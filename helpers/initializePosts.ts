@@ -17,6 +17,7 @@ export default async function initializePosts(slugs: string[]) {
                   views: 1,
                 },
             });
+            console.log(upsertPost);
         }
     }
       
