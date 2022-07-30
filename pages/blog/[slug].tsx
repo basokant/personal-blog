@@ -31,7 +31,7 @@ import useViewport from "../../hooks/useViewport";
 import styles from "../../styles/Post.module.scss";
 
 import Logo from "../../components/Logo";
-import Spicy from "../../components/Spicy";
+import Spicy from "../../components/spicy";
 import Sparkles from "../../components/Sparkles";
 import Info from "../../components/Info";
 import Accordion from "../../components/Accordion";
