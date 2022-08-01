@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+import Image from "next/image";
 import { useMemo, useEffect } from "react";
 
 import { serialize } from "next-mdx-remote/serialize";
@@ -17,6 +18,8 @@ import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import rehypeAutolinkHeadings from "remark-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import remarkSlug from 'remark-slug';
+import remarkAutoLinkHeadings from 'remark-autolink-headings';
 import remarkPrism from "remark-prism";
 
 import Footer from "../../components/Footer";
@@ -31,6 +34,7 @@ import useViewport from "../../hooks/useViewport";
 import styles from "../../styles/Post.module.scss";
 
 import Logo from "../../components/Logo";
+import Figure from "../../components/Figure";
 import Spicy from "../../components/spicy";
 import Sparkles from "../../components/Sparkles";
 import Info from "../../components/Info";
@@ -58,7 +62,19 @@ type PostProps = {
 const Post = ({ mdxSource, frontmatter }: PostProps) => {
   const { isMobile, isTablet, isDesktop } = useViewport();
 
-  const components = { Logo, Spicy, Sparkles, Info, Accordion, YouTube, CodePen, Replit, AudioPlayer };
+  const components = { 
+    Image,
+    Figure,
+    Logo, 
+    Spicy, 
+    Sparkles, 
+    Info, 
+    Accordion, 
+    YouTube, 
+    CodePen, 
+    Replit, 
+    AudioPlayer
+  };
 
   return (
     <div className={styles.container}>
@@ -112,6 +128,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             remarkReadingTime,
             readingMdxTime,
             remarkMath,
+            remarkSlug,
+            remarkAutoLinkHeadings,
             [
               remarkPrism,
               {
@@ -126,15 +144,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           ],
           rehypePlugins: [
             rehypeKatex,
-            rehypeSlug,
-            [
-              rehypeAutolinkHeadings,
-              {
-                properties: {
-                  className: ["anchor"],
-                },
-              },
-            ],
+            // rehypeSlug,
+            // [
+            //   rehypeAutolinkHeadings,
+            //   {
+            //     properties: {
+            //       className: ["anchor"],
+            //     },
+            //   },
+            // ],
           ],
           format: 'mdx'
         },

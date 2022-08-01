@@ -1,7 +1,5 @@
 @import './vars.scss';
 
-
-
 main {
   min-height: 100vh;
   flex: 1;
@@ -109,6 +107,22 @@ ul li {
 
 ul {
   list-style-type: "→   ";
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin: auto;
+
+  img {
+    margin: 0;
+
+  }
+
+  figcaption {
+    
+  }
 }
 
 code {
