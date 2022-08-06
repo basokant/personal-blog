@@ -28,13 +28,13 @@ const Hero = ({isDesktop}: HeroProps) => {
             </div>
             { isDesktop &&
                 <div className={styles.col2}>
-                    <Image className={styles.image} src="/self_portrait.svg" width={360} height={592} ></Image>
+                    <Image className={styles.image} src="/self_portrait.svg" width={396*1.1} height={592*1.1} ></Image>
                 </div>
             }
         </div>
         { !isDesktop &&
             <div className={styles.col2}>
-                <Image className={styles.image} src="/self_portrait.svg" width={360} height={592} ></Image>
+                <Image className={styles.image} src="/self_portrait.svg" width={360*1.1} height={592*1.1} ></Image>
             </div>
         }
         </>
