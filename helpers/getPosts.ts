@@ -3,6 +3,8 @@ import fs from "fs";
 import path from "path";
 import readingTime from 'reading-time';
 
+require('dotenv').config();
+
 export default async function getPosts()  {
     const list = fs.readdirSync(path.join("posts"));
 
@@ -24,13 +26,17 @@ export default async function getPosts()  {
 
     console.log(allPostsData);
 
-    const publishedPosts = allPostsData.filter((post) => {
-        if (post.data.isPublished == null) {
-            return false;
-        }
-        
-        return post.data.isPublished;
-    })
-
-    return publishedPosts;
+    if (process.env.DEBUG == "true") {
+        return allPostsData
+    } else {
+        const publishedPosts = allPostsData.filter((post) => {
+            if (post.data.isPublished == null) {
+                return false;
+            }
+            
+            return post.data.isPublished;
+        })
+    
+        return publishedPosts;
+    }
 }

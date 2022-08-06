@@ -61,7 +61,7 @@ type PostProps = {
 
 const ResponsiveImage = (props: any) => {
   return (
-    <Image src={props.src} alt={props.alt} layout="responsive" loading="lazy" width="400px" height="280px" objectFit="contain" {...props} />
+    <Image src={props.src} alt={props.alt} layout="responsive" loading="lazy" width="400px" height="280px" objectFit="scale-down" {...props} />
   );
 }
 
