@@ -21,6 +21,7 @@
     "feather-icons": "^4.29.0",
     "framer-motion": "^6.3.3",
     "gray-matter": "^4.0.3",
+    "hastscript": "^7.0.2",
     "mdx-bundler": "^9.0.1",
     "mdx-prism": "^0.3.4",
     "next": "12.1.6",

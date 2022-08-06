@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next";
-import Image from "next/image";
 import { useMemo, useEffect } from "react";
+import {h} from "hastscript";
+import Image from 'next/image';
 
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
@@ -34,7 +35,6 @@ import useViewport from "../../hooks/useViewport";
 import styles from "../../styles/Post.module.scss";
 
 import Logo from "../../components/Logo";
-import Figure from "../../components/Figure";
 import Spicy from "../../components/spicy";
 import Sparkles from "../../components/Sparkles";
 import Info from "../../components/Info";
@@ -59,12 +59,17 @@ type PostProps = {
   }
 };
 
+const ResponsiveImage = (props: any) => {
+  return (
+    <Image src={props.src} alt={props.alt} layout="responsive" loading="lazy" width="400px" height="260px" objectFit="contain" {...props} />
+  );
+}
+
 const Post = ({ mdxSource, frontmatter }: PostProps) => {
   const { isMobile, isTablet, isDesktop } = useViewport();
 
   const components = { 
-    Image,
-    Figure,
+    img: ResponsiveImage,
     Logo, 
     Spicy, 
     Sparkles, 
@@ -129,7 +134,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             readingMdxTime,
             remarkMath,
             remarkSlug,
-            remarkAutoLinkHeadings,
+            [ remarkAutoLinkHeadings,
+              {
+                behavior: "wrap",
+                properties: {
+                  class: 'header',
+                  ariaHidden: true,
+                  tabIndex: -1
+                }
+              }
+            ],
             [
               remarkPrism,
               {

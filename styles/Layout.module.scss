@@ -5,7 +5,7 @@
     padding-bottom: 20vh;
     background-color: $bg1;
 
-    a {
+    a :not(.header) {
         color: $component-bg;
         text-decoration: underline;
         font-weight: 550;
@@ -15,6 +15,17 @@
 
     a:hover {
         transform: translateY(10px);
+    }
+
+    .header:hover {
+        color: $component-bg;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-thickness: 3px;
+    }
+
+    img {
+        padding: 15px;
     }
 }
 
