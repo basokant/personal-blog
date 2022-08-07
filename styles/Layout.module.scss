@@ -5,23 +5,26 @@
     padding-bottom: 20vh;
     background-color: $bg1;
 
-    a :not(.header) {
+    h1 {
+        font-size: 2em;
+        margin: 2em 0;
+      }
+      
+    h2 {
+        margin: 1.3em 0;
+        margin-top: 2em;
         color: $component-bg;
-        text-decoration: underline;
-        font-weight: 550;
-        text-underline-offset: 2px;
-        text-decoration-thickness: 3px;
+        border: none;
     }
 
-    a:hover {
-        transform: translateY(10px);
-    }
+    a:not(.header) {
+        color: $text2;
+        font-weight: 500;
+        border-bottom: 3px solid $text2;
 
-    .header:hover {
-        color: $component-bg;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        text-decoration-thickness: 3px;
+        &:hover {
+            border-bottom: 3px solid $component-bg;
+        }
     }
 
     img {

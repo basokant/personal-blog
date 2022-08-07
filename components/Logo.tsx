@@ -7,14 +7,10 @@ const Logo = ( { marginRight } : { marginRight ?: string } ) => {
 
     const signature = {
         hidden: {
-          opacity: 1,
-          pathLength: 0,
-          fill: "rgba(0, 0, 0, 0)"
+            pathLength: 0,
         },
         visible: {  
-          opacity: 1,
-          pathLength: 1,
-          fill: "rgba(0, 0, 0, 0)"
+            pathLength: 1,
         }
     };
 
@@ -35,7 +31,6 @@ const Logo = ( { marginRight } : { marginRight ?: string } ) => {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 100 100"
                             className={styles.item}
-                            whileTap="hidden" whileHover="hidden"
                         >
                             <g transform="matrix(1,0,0,1,-1401.78,-2250.09)">
                                 <g transform="matrix(1,0,0,2.7,1118.89,2216.37)">
@@ -46,8 +41,9 @@ const Logo = ( { marginRight } : { marginRight ?: string } ) => {
                                             variants={signature}
                                             initial="hidden"
                                             animate="visible"
-                                            transition={{ ease: "easeInOut", duration: 2 }}
+                                            transition={{ ease: "easeInOut", duration: 2, delay: 1 }}
                                             whileTap="hidden" whileHover="hidden"
+                                            style={{fill: "rgba(0,0,0,0)"}}
                                         />
                                     </g>
                                 </g>

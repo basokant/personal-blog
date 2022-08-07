@@ -34,6 +34,7 @@ import useViewport from "../../hooks/useViewport";
 
 import styles from "../../styles/Post.module.scss";
 
+import Signature from "../../components/Signature";
 import Logo from "../../components/Logo";
 import Spicy from "../../components/spicy";
 import Sparkles from "../../components/Sparkles";
@@ -61,7 +62,7 @@ type PostProps = {
 
 const ResponsiveImage = (props: any) => {
   return (
-    <Image src={props.src} alt={props.alt} layout="responsive" loading="lazy" width="400px" height="280px" objectFit="scale-down" {...props} />
+    <Image src={props.src} alt={props.alt} layout="responsive" loading="lazy" width="480px" height="240px" objectFit="scale-down" {...props} />
   );
 }
 
@@ -70,6 +71,7 @@ const Post = ({ mdxSource, frontmatter }: PostProps) => {
 
   const components = { 
     img: ResponsiveImage,
+    Signature,
     Logo, 
     Spicy, 
     Sparkles, 
@@ -137,10 +139,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             [ remarkAutoLinkHeadings,
               {
                 behavior: "wrap",
-                properties: {
-                  class: 'header',
-                  ariaHidden: true,
-                  tabIndex: -1
+                linkProperties: {
+                  className: "Layout_header__M_IZ8",
                 }
               }
             ],
@@ -158,15 +158,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           ],
           rehypePlugins: [
             rehypeKatex,
-            // rehypeSlug,
-            // [
-            //   rehypeAutolinkHeadings,
-            //   {
-            //     properties: {
-            //       className: ["anchor"],
-            //     },
-            //   },
-            // ],
+            rehypeSlug,
+            [
+              rehypeAutolinkHeadings,
+              {
+                behavior: "wrap",
+                properties: {
+                  className: ['header'],
+                  tabIndex: -1
+                }
+              },
+            ],
           ],
           format: 'mdx'
         },

@@ -1,0 +1,242 @@
+---
+title: "How To Draw a Signature (with React and Framer Motion)"
+date: "2022-08-06"
+description: ""
+category: "Blog"
+isPublished: true
+---
+
+I believe small details can go a long way in improving a project - including this website! You may have noticed the subtle (or not so subtle) signature animation on the navigation bar and the footer. 
+
+If you want to build your own animated signature component for your website, here's how.
+
+# The Tools 🛠️
+    
+    - [SVGs](https://developer.mozilla.org/en-US/docs/Web/SVG) (Scalable Vector Graphics)
+    - [React](https://reactjs.org/) (My front-end framework of choice)
+    - [Framer Motion](https://www.framer.com/motion/) (A React animation library)
+
+# <Spicy>1.</Spicy> Vectorize the Signature.
+
+We want the signature in a vector image format so we can animate it as if it was drawn.
+
+<Info>
+    **Vector** 🖋️ graphics use math to render images. **Raster** 👾 graphics use a set of pixels to render images. 
+    
+    Essentially, vector images are composed of *paths* rather than pixels.  This makes vector images scalable, lightweight, and *easy to manipulate*, which is what makes them perfect for this type of animation.
+
+    ![Vector vs Raster](/vector-vs-raster.png)
+</Info>
+
+*Let's run through the vectorizing process:*
+
+1. Draw your signature on paper.
+2. Scan or take a picture of your signature. Upload this scan onto your machine.
+3. Use the pen tool in your **vector illustration application** of choice to trace your signature *in one stroke*. (this is important, and you'll see why later)
+4. Export the signature vector *as an SVG*. (not PNG, JPEG, etc)
+
+<Accordion title="What if I don't have a vector illustration app already?">
+
+    [Figma](https://www.figma.com/) is a free and collaborative design web app that has vector illustration tools, like the pen tool. 
+
+    Once you create and open a design file in Figma, here are the relevant official tutorials that you'll need:
+
+    - [Add Images to Design Files](https://help.figma.com/hc/en-us/articles/360040028034)
+    - [Figma's Pen Tool](https://help.figma.com/hc/en-us/articles/360040450213)
+    - [Export in Figma](https://help.figma.com/hc/en-us/articles/360040028114-Guide-to-exports-in-Figma)
+
+</Accordion>
+
+If you've gotten this far, <Spicy>awesome stuff!</Spicy> 🎉. It's time for the next step.
+
+# <Spicy>2.</Spicy> Create the Signature Component
+
+In your React repository, create a new file called `Signature.jsx` (or `Signature.tsx` for you fellow Typescript fans). 
+
+The functional component boilerplate should look like so:
+
+```jsx
+export default function Signature() {
+    return (
+        <p>Hello World</p>
+    )
+}
+```
+
+Of course, this simply renders "Hello World" if added to the component tree. We want it to render the SVG that we exported earlier. To do that, we're gonna dive right into the SVG markup. <Spicy>Maybe we'll learn a thing or two.</Spicy> :sparkles:
+
+If you open the SVG of the signature in a text editor, you should see a familiar HTML/XML like markup in this format:
+
+```xml
+<svg 
+    width="108" 
+    height="89" 
+    viewBox="0 0 108 89" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <path 
+        d="..." 
+        style="some styling"
+    />
+</svg>
+```
+
+All SVG's are wrapped in the `svg` element. In this case, we only have one path element inside our SVG. [Remember Why?](#1-vectorize-the-signature) 
+
+It's super important that it's only one path element because it reduces the complexity of our animation. Animating one path element is so much easier.
+
+Another note is that the `d` attribute on the `path` element specifies the bezier curve using [curve commands](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths#curve_commands).
+
+Anyway, *HTML* (and by extension *JSX*) can render SVGs in two ways:
+
+1. Using the `img` element (like any image on the web).
+    ```html
+    <img src="vector.svg" alt="You just got Vectored"/>
+    ```
+2. The `svg` element.
+
+Since we want to animate the SVG, the second option is advantageous. Copy and paste the signature's SVG into your component. It should look something like this:
+
+```jsx
+export default function Signature() {
+    return (
+        <svg 
+            width="108" 
+            height="89"
+            viewBox="0 0 108 89" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path 
+                d="..." 
+                style="some styling"
+            />
+        </svg>
+    )
+}
+```
+
+<Signature animate={false}/>
+
+# <Spicy>3.</Spicy> Animate the Signature Component
+
+It's time to breathe some life into our signature!
+
+If you haven't already, install `framer-motion` using your preferred package manager:
+
+```zsh
+npm i framer-motion
+```
+
+then add an import for the `motion` component(s):
+
+```jsx
+import { motion } from "framer-motion"
+```
+
+<br />
+If you haven't used `framer-motion` before this (sorta) mini tutorial, not to worry! I hadn't before building the signature either :sweat_smile:
+
+## Motion Components
+
+`motion` has a set of components which are DOM primitives, but supercharged with smooth animation capabilities. There's a `motion` component for every *HTML* and *SVG* element (including the `path` element). Each `motion` component allows you to:
+
+- **Animate via a simple prop.**
+- **Respond to gestures with animations.**
+- Add drag, pan, hover and tap gestures.
+- Deeply animate throughout React trees via variants.
+
+We're gonna be exploring the first two capabilities with the signature.
+
+## Animate
+
+Let's swap the `svg` and `path` elements with their respective `motion` components:
+
+```jsx
+export default function Signature() {
+    return (
+        <motion.svg 
+            ...
+        >
+            <motion.path 
+                ...
+            />
+        </svg>
+    )
+}
+```
+<br /><br />
+A `motion` component can take in variants (or keyframes) of the component as a prop that it will transition to and from. We specify these variants with an object.
+
+The variants that I used look like this:
+
+```js
+const variants = {
+    hidden: {
+        pathLength: 0,
+    },
+    visible: {  
+        pathLength: 1,
+    }
+}
+```
+<br /><br />
+I want the signature to be hidden initially, and gradually become more visible. We specify this with the `initial` and `animate` props.
+
+```js
+<motion.path
+    d="..."
+
+    strokeDasharray="0 1"
+    variants={variants}
+    initial="hidden"
+    animate="visible"
+    style="some styling"
+/>
+```
+<br /><br />
+Finally, we want to specify some *transition* details for the animation. We can specify this as follows.
+
+```jsx
+<motion.path
+    ...
+    transition={{ease: "easeInOut", duration: 2, delay: 0.5}}
+/>
+```
+
+The `transition` prop takes an object that specifies the transition. Read about it [here](https://www.framer.com/docs/transition/). I'll briefly explain the three values I specified:
+
+- `ease: "easeInOut"`
+
+Specifies the *easing* function to use in the transition. *"easeInOut"* is one of Framer's built in functions, but you can also specify a custom cubic bezier curve for the easing function. [Custom Easing Functions](https://easings.net/)
+- `duration: 2`
+
+Specifies the duration of the animation. (2 seconds)
+- `delay: 0.5`
+
+Specifies the delay starting from `componentDidMount()` to the start of the animation. (0.5 seconds)
+
+<Signature animate onlyAnimateInView/>
+
+## Respond to Gestures with animations
+
+You might not have noticed, but you can hover over the signature, and the signature gets erased, and then redrawn when not hovering. This is super simple with `framer-motion`:
+
+```jsx
+<motion.path
+    ...
+    whileHover="hidden"
+    ...
+/>
+```
+
+This sets the `whileHover` animation state to be "hidden", and the same transition is applied. Framer Motion is animation magic 🪄.
+
+<div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+    <Signature animate animateOnHover/>
+</div>
+
+# We did it! 🎊 
+
+Now you can draw a signature with the help of React and Framer Motion! Hopefully you're inspired to create some cool, more complex animations with Framer Motion in your React projects.
