@@ -1,8 +1,9 @@
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import generateSparkle from "../helpers/generateSparkle";
-import useRandomInterval from "../hooks/useRandomInterval";
-import SparkleInstance from "./SparkleInstance";
+import range from "../helpers/range";
+import random from "../helpers/random";
+import { useInterval } from 'usehooks-ts';
 
 type SparklesProps = {
     children: React.ReactNode;
@@ -21,29 +22,36 @@ type Sparkle = {
 }
 
 function Sparkles({ children }: SparklesProps) {
-    const [sparkles, setSparkles] = useState<Sparkle[]>([]);
+    const [sparkles, setSparkles] = useState<Sparkle[]>(() => {
+      return range(1).map(() => generateSparkle());
+    });
 
-    useRandomInterval(() => {
-        const now = Date.now();
+    const [interval, setInterval] = useState(450);
 
-        // Create a new sparkle
-        const sparkle = generateSparkle();
+    useInterval(() => {
+      const now = Date.now();
 
-        // Clean up any "expired" sparkles
-        const nextSparkles = sparkles.filter(sparkle => {
-            const delta = now - sparkle.createdAt;
-            return delta < 1000;
-        });
+      // Create a new sparkle
+      const sparkle = generateSparkle();
 
-        // Include out new sparkle
-        nextSparkles.push(sparkle);
+      // Clean up any "expired" sparkles
+      const nextSparkles = sparkles.filter(sp => {
+          const delta = now - sp.createdAt;
+          return delta < 600;
+      });
 
-        // Make it so!
-        setSparkles(nextSparkles);
-    }, 50, 500);
+      // Include out new sparkle
+      nextSparkles.push(sparkle);
+
+      // Make it so!
+      setSparkles(nextSparkles);
+
+      // randomize the next interval
+      setInterval(random(100, 600))
+    }, interval)
 
     return (
-        <Wrapper >
+        <Wrapper>
             {sparkles.map(sparkle => (
                 <Sparkle
                     key={sparkle.id}
@@ -64,8 +72,7 @@ type SparkleProps = {
 }
 
 const Sparkle = ({ size, color, style }: SparkleProps) => {
-    const path = 
-        "M129.5 0C129.5 0 137.561 66.585 165.488 94.5118C193.415 122.439 260 130.5 260 130.5C260 130.5 193.415 138.561 165.488 166.488C137.561 194.415 129.5 261 129.5 261C129.5 261 121.439 194.415 93.5118 166.488C65.585 138.561 -1 130.5 -1 130.5C-1 130.5 65.585 122.439 93.5118 94.5118C121.439 66.585 129.5 0 129.5 0Z"
+    const path = "M129.5 0C129.5 0 137.561 66.585 165.488 94.5118C193.415 122.439 260 130.5 260 130.5C260 130.5 193.415 138.561 165.488 166.488C137.561 194.415 129.5 261 129.5 261C129.5 261 121.439 194.415 93.5118 166.488C65.585 138.561 -1 130.5 -1 130.5C-1 130.5 65.585 122.439 93.5118 94.5118C121.439 66.585 129.5 0 129.5 0Z"
 
     return (
         <SparkleWrapper style={style}>

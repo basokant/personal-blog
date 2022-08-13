@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import random from '../helpers/random';
 
-
 // Utility helper for random number generation
 
 const useRandomInterval = (callback: () => void, minDelay: number, maxDelay: number) => {
@@ -13,8 +12,7 @@ const useRandomInterval = (callback: () => void, minDelay: number, maxDelay: num
   
   useEffect(() => {
     let isEnabled =
-      typeof minDelay === 'number' && typeof maxDelay === 'number'
-      && timeoutId.current;
+      typeof minDelay === 'number' && typeof maxDelay === 'number' && timeoutId.current;
 
     if (isEnabled) {
       const handleTick = () => {

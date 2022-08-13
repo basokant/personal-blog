@@ -1,12 +1,12 @@
 ---
 title: "How to Count Views (with Next.js, PostgreSQL, and Prisma)"
 date: "2022-08-13"
-description: "An introduction to Prisma, PostreSQL, Heroku Postgres, and Next.js API routes wrapped in a tutorial on how to build a view counter component for your website."
+description: "An introduction to Prisma, PostgreSQL, Heroku Postgres, and Next.js API routes wrapped in a tutorial on how to build a view counter component for your website."
 category: "Blog"
 isPublished: false
 ---
 
-Counting the number of hits on a page seems like an easy enough task, but it requires a single source of truth that can be updated and retrieved from at any given moment. This is a challenge that calls for some sort of organized persistant storage service. This kind of service is also known as a <Spicy>Database</Spicy>.
+Counting the number of hits on a page seems like an easy enough task, but it requires a single source of truth that can be updated and retrieved from at any given moment. This is a challenge that calls for some sort of organized persistant storage service. This kind of service is also known as a <Sparkles><Spicy>database</Spicy></Sparkles>.
 
 <Info>
     There are 2 main types of databases that are commonly used in the industry:
@@ -17,17 +17,20 @@ Counting the number of hits on a page seems like an easy enough task, but it req
     [MongoDB](https://www.mongodb.com/), a NoSQL, Document Database solution has a great article explaining the differences between these two [here](https://www.mongodb.com/nosql-explained/nosql-vs-sql).
 </Info>
 
-For the purpose of this website/blog, I chose to use a **SQL Database**, and more specifically PostgreSQL (a flavour of SQL) for a number of reasons.
+For the purpose of this website/blog, I chose to use a **SQL Database**, and more specifically [**PostgreSQL**](https://www.postgresql.org/) (a flavour of SQL) for a number of reasons.
 
 - This database application is very simple, we're only storing the number of views/hits for every blog post on the website. This means the database paradigm that we choose isn't that important.
 - I'm already a bit familiar with the SQL paradigm.
 - I needed a database service that's easy to work with and connect to without being a local file.
-    - [Vercel](https://vercel.com/), the front-end hosting platform that I use doesn't support file system persistant storage because it is a serverless service.
+    
+* [Vercel](https://vercel.com/), the front-end hosting platform that I use doesn't support file system persistant storage because it is a serverless service.
 
 Before we start making some other tech stack (make a tool tip component definition here) choices, let's go through some assumptions.
 
 # The Assumed Tools
 
-- [React]()
-- [Next.js]()
-- []
+- [React](https://reactjs.org/) (My front-end framework of choice)
+- [Next.js](https://nextjs.org/) (A React full-stack framework that I use for my blog)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Prisma](https://www.prisma.io/) (A modern JavaScript ORM (object relational mapper) which makes working with databases in JS, and especially TypeScript, painless)
+

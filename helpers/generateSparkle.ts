@@ -1,7 +1,7 @@
 import random from './random';
 
 // Defualt color is a bright blue
-const DEFAULT_COLOR = 'rgb(100,100,100)';
+const DEFAULT_COLOR = '#FFC700';
 
 type Sparkle = {
     id: string;
