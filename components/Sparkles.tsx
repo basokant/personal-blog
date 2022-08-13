@@ -7,6 +7,7 @@ import { useInterval } from 'usehooks-ts';
 
 type SparklesProps = {
     children: React.ReactNode;
+    rainbow?: boolean;
 }
 
 type Sparkle = {
@@ -21,48 +22,55 @@ type Sparkle = {
     }
 }
 
-function Sparkles({ children }: SparklesProps) {
-    const [sparkles, setSparkles] = useState<Sparkle[]>(() => {
-      return range(1).map(() => generateSparkle());
+function Sparkles({ children, rainbow }: SparklesProps) {
+
+  const [sparkles, setSparkles] = useState<Sparkle[]>(() => {
+    return range(3).map(() => {
+      if (rainbow) {
+        return generateSparkle("rainbow");
+      } else {
+        return generateSparkle();
+      }
+    })
+  });
+
+  const [interval, setInterval] = useState(450);
+
+  useInterval(() => {
+    const now = Date.now();
+
+    // Create a new sparkle
+    const sparkle = rainbow ? generateSparkle("rainbow") : generateSparkle();
+
+    // Clean up any "expired" sparkles
+    const nextSparkles = sparkles.filter(sp => {
+        const delta = now - sp.createdAt;
+        return delta < 450;
     });
 
-    const [interval, setInterval] = useState(450);
+    // Include out new sparkle
+    nextSparkles.push(sparkle);
 
-    useInterval(() => {
-      const now = Date.now();
+    // Make it so!
+    setSparkles(nextSparkles);
 
-      // Create a new sparkle
-      const sparkle = generateSparkle();
+    // randomize the next interval
+    setInterval(random(100, 450))
+  }, interval)
 
-      // Clean up any "expired" sparkles
-      const nextSparkles = sparkles.filter(sp => {
-          const delta = now - sp.createdAt;
-          return delta < 600;
-      });
-
-      // Include out new sparkle
-      nextSparkles.push(sparkle);
-
-      // Make it so!
-      setSparkles(nextSparkles);
-
-      // randomize the next interval
-      setInterval(random(100, 600))
-    }, interval)
-
-    return (
-        <Wrapper>
-            {sparkles.map(sparkle => (
-                <Sparkle
-                    key={sparkle.id}
-                    color={sparkle.color}
-                    size={sparkle.size}
-                    style={sparkle.style}
-                />
-            ))}
-            <ChildWrapper>{children}</ChildWrapper>
-        </Wrapper>
-    )
+  return (
+      <Wrapper>
+          {sparkles.map(sparkle => (
+              <Sparkle
+                  key={sparkle.id}
+                  color={sparkle.color}
+                  size={sparkle.size}
+                  style={sparkle.style}
+              />
+          ))}
+          <ChildWrapper>{children}</ChildWrapper>
+      </Wrapper>
+  )
 }
 
 type SparkleProps = {

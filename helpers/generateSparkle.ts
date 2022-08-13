@@ -1,6 +1,7 @@
 import random from './random';
+import { generateColor, generateLightColor } from "./randomColor";
 
-// Defualt color is a bright blue
+// Defualt color is a bright yellow
 const DEFAULT_COLOR = '#FFC700';
 
 type Sparkle = {
@@ -16,6 +17,12 @@ type Sparkle = {
 }
 
 const generateSparkle = (color = DEFAULT_COLOR): Sparkle => {
+    
+    if (color == "rainbow") {
+        color = generateColor();
+    };
+    
+
     return {
         id: String(random(10000, 99999)),
         createdAt: Date.now(),
