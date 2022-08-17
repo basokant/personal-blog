@@ -44,6 +44,7 @@ import YouTube from "../../components/youtube";
 import CodePen from "../../components/CodePen";
 import Replit from "../../components/Replit";
 import AudioPlayer from "react-audio-player";
+import Icon from "../../components/Icon";
 
 import initializePosts from "../../helpers/initializePosts";
 
@@ -80,7 +81,8 @@ const Post = ({ mdxSource, frontmatter }: PostProps) => {
     YouTube, 
     CodePen, 
     Replit, 
-    AudioPlayer
+    AudioPlayer,
+    Icon
   };
 
   return (
@@ -95,6 +97,9 @@ const Post = ({ mdxSource, frontmatter }: PostProps) => {
           href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
           integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
           crossOrigin="anonymous"
+        />
+        <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" 
         />
       </Head>
 

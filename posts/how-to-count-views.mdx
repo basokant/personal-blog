@@ -6,7 +6,7 @@ category: "Blog"
 isPublished: false
 ---
 
-Counting the number of hits on a page seems like an easy enough task, but it requires a single source of truth that can be updated and retrieved from at any given moment. This is a challenge that calls for some sort of organized persistant storage service. This kind of service is also known as a <Sparkles rainbow><Spicy>database</Spicy></Sparkles>.
+Counting the number of hits on a page seems like an easy enough task, but it requires a single source of truth that can be updated and retrieved from at any given moment. This is a challenge that calls for some sort of organized persistant storage service. This kind of service is also known as a <Sparkles rainbow><Spicy>database.</Spicy></Sparkles>
 
 <Info>
     There are 2 main types of databases that are commonly used in the industry:
@@ -23,17 +23,14 @@ For the purpose of this website/blog, I chose to use a **SQL Database**, and mor
 - I'm already a bit familiar with the SQL paradigm.
 - I needed a database service that's easy to work with and connect to without being a local file.
     
-* [Vercel](https://vercel.com/), the front-end hosting platform that I use doesn't support file system persistant storage because it is a serverless service.
+* [Vercel](https://vercel.com/), the front-end hosting platform that I use doesn't support file system persistant storage because it is a serverless service. This means SQLite isn't adequete.
 
-Before we start making some other tech stack (make a tool tip component definition here) choices, let's go through some assumptions.
 
-# <Sparkles rainbow>The Assumed Tools</Sparkles>
+# The Assumed Tools
 
 - [React](https://reactjs.org/) (My front-end framework of choice)
 - [Next.js](https://nextjs.org/) (A React full-stack framework that I use for my blog)
-- [PostgreSQL](https://www.postgresql.org/)
+- [PostgreSQL](https://www.postgresql.org/) (Chosen flavour of SQL)
 - [Prisma](https://www.prisma.io/) (A modern JavaScript ORM (object relational mapper) which makes working with databases in JS, and especially TypeScript, painless)
 
-<Sparkles rainbow>
-Hello world
-</Sparkles>
+# <Spicy>1. </Spicy> 

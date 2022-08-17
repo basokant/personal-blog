@@ -6,6 +6,7 @@ import Hero from '../components/Hero';
 import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import useViewport from '../hooks/useViewport';
+import ReactTooltip from 'react-tooltip';
 
 import dateToString from '../helpers/dateToString';
 import getCategories from '../helpers/getCategories';
@@ -39,6 +40,7 @@ const Home = ( { posts, categories }: HomeProps ) => {
         <title>Ben Asokanthan</title>
         <meta name="description" content="My Personal Website and Blog" />
         <link rel="icon" href="/favicon.ico" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
       </Head>
 
       <main >
