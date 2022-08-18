@@ -22,6 +22,7 @@ import rehypeSlug from "rehype-slug";
 import remarkSlug from 'remark-slug';
 import remarkAutoLinkHeadings from 'remark-autolink-headings';
 import remarkPrism from "remark-prism";
+import rehypePrism from "rehype-prism";
 
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -149,21 +150,33 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                 }
               }
             ],
+            // [
+            //   remarkPrism,
+            //   {
+            //     plugins: [
+            //       "command-line",
+            //       "diff-highlight",
+            //       "inline-color",
+            //       "keep-markup",
+            //     ],
+            //   },
+            // ],
+          ],
+          rehypePlugins: [
+            rehypeKatex,
+            rehypeSlug,
             [
-              remarkPrism,
+              rehypePrism,
               {
                 plugins: [
                   "command-line",
                   "diff-highlight",
                   "inline-color",
                   "keep-markup",
-                ],
-              },
+                  "normalize-whitespace",
+                ]
+              }
             ],
-          ],
-          rehypePlugins: [
-            rehypeKatex,
-            rehypeSlug,
             [
               rehypeAutolinkHeadings,
               {

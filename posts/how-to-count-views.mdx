@@ -33,4 +33,23 @@ For the purpose of this website/blog, I chose to use a **SQL Database**, and mor
 - [PostgreSQL](https://www.postgresql.org/) (Chosen flavour of SQL)
 - [Prisma](https://www.prisma.io/) (A modern JavaScript ORM (object relational mapper) which makes working with databases in JS, and especially TypeScript, painless)
 
-# <Spicy>1. </Spicy> 
+# <Spicy>1. </Spicy> The Setup
+
+Every database needs some sort of blueprint that describes how the data organization. This is called the <Spicy>schema.</Spicy> 
+
+```js
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  slug       String   @id
+  created_at DateTime @default(now())
+  views      Int      @default(0)
+}
+```
