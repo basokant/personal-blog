@@ -150,33 +150,33 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                 }
               }
             ],
-            // [
-            //   remarkPrism,
-            //   {
-            //     plugins: [
-            //       "command-line",
-            //       "diff-highlight",
-            //       "inline-color",
-            //       "keep-markup",
-            //     ],
-            //   },
-            // ],
-          ],
-          rehypePlugins: [
-            rehypeKatex,
-            rehypeSlug,
             [
-              rehypePrism,
+              remarkPrism,
               {
                 plugins: [
                   "command-line",
                   "diff-highlight",
                   "inline-color",
                   "keep-markup",
-                  "normalize-whitespace",
-                ]
-              }
+                ],
+              },
             ],
+          ],
+          rehypePlugins: [
+            rehypeKatex,
+            rehypeSlug,
+            // [
+            //   rehypePrism,
+            //   {
+            //     plugins: [
+            //       "command-line",
+            //       "diff-highlight",
+            //       "inline-color",
+            //       "keep-markup",
+            //       "normalize-whitespace",
+            //     ]
+            //   }
+            // ],
             [
               rehypeAutolinkHeadings,
               {

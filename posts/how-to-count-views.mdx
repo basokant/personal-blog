@@ -1,12 +1,12 @@
 ---
 title: "How to Count Views (with Next.js, PostgreSQL, and Prisma)"
-date: "2022-08-13"
+date: "2022-08-19"
 description: "An introduction to Prisma, PostgreSQL, Heroku Postgres, and Next.js API routes wrapped in a tutorial on how to build a view counter component for your website."
 category: "Blog"
 isPublished: false
 ---
 
-Counting the number of hits on a page seems like an easy enough task, but it requires a single source of truth that can be updated and retrieved from at any given moment. This is a challenge that calls for some sort of organized persistant storage service. This kind of service is also known as a <Sparkles rainbow><Spicy>database.</Spicy></Sparkles>
+Counting the number of hits on a page seems like an easy enough task, but it requires a single source of truth that can be updated and retrieved from at any given moment. This is a challenge that calls for some sort of organized persistant storage service. AKA a <Sparkles rainbow><Spicy>database.</Spicy></Sparkles>
 
 <Info>
     There are 2 main types of databases that are commonly used in the industry:
@@ -14,7 +14,7 @@ Counting the number of hits on a page seems like an easy enough task, but it req
     1. **Relational (or SQL)** Databases
     2. **NoSQL** Databases
 
-    [MongoDB](https://www.mongodb.com/), a NoSQL, Document Database solution has a great article explaining the differences between these two [here](https://www.mongodb.com/nosql-explained/nosql-vs-sql).
+    Here's a great article explaining the differences, benefi between these two [here](https://www.mongodb.com/nosql-explained/nosql-vs-sql).
 </Info>
 
 For the purpose of this website/blog, I chose to use a **SQL Database**, and more specifically [**PostgreSQL**](https://www.postgresql.org/) (a flavour of SQL) for a number of reasons.
@@ -25,17 +25,59 @@ For the purpose of this website/blog, I chose to use a **SQL Database**, and mor
     
 * [Vercel](https://vercel.com/), the front-end hosting platform that I use doesn't support file system persistant storage because it is a serverless service. This means SQLite isn't adequete.
 
-
-# The Assumed Tools
+# The Tools :hammer_and_wrench:
 
 - [React](https://reactjs.org/) (My front-end framework of choice)
 - [Next.js](https://nextjs.org/) (A React full-stack framework that I use for my blog)
 - [PostgreSQL](https://www.postgresql.org/) (Chosen flavour of SQL)
 - [Prisma](https://www.prisma.io/) (A modern JavaScript ORM (object relational mapper) which makes working with databases in JS, and especially TypeScript, painless)
 
-# <Spicy>1. </Spicy> The Setup
+# <Spicy>1. </Spicy> The Development Setup
 
-Every database needs some sort of blueprint that describes how the data organization. This is called the <Spicy>schema.</Spicy> 
+## PostgreSQL Database
+
+First, we need a PostgreSQL database server running to interact with. For development, we can host a PSQL db locally. [Here](https://www.prisma.io/dataguide/postgresql/setting-up-a-local-postgresql-database) are instructions for doing this on Windows/macOS/Linux. 
+
+On macOS, you can also use [Postgres.app](https://postgresapp.com/), a PostgreSQL installation packaged as a macOS app.
+
+To connect to the database in our application, we need a **connection string**, which should be in the following format:
+
+```text
+postgresql://<username>:<password>@<hostname>:<port>/<database>
+```
+
+We'll need this string later.
+
+## Prisma
+
+**Prisma** is an ORM for Node.js and TypeScript (use TS, it enables cool things like *autocompletion*). It makes interacting with a database incredibly simple.
+
+Install Prisma using your package manager of choice:
+
+```text
+$  npm install prisma
+```
+
+Now we can invoke the Prisma CLI with the prefix `npx`. Run the initial command:
+
+```text
+$  npx prisma init
+```
+
+This should
+
+- create a new `prisma` directory with the `schema.prisma` file.
+- create the `.env` file in the root directory.
+
+Every database needs some sort of blueprint that describes how the data organization. This is called the **schema.** 
+
+This differs from the Prisma **schema file**, which is a config file for Prisma. It consists of 3 parts:
+
+1. **Data Sources** ~ Database and connection details.
+2. **Generators** ~ Specifies what clients should be generated based on the data model.
+3. **Data Model** ~ specifies the shape of the data.
+
+Here's my `prisma.schema` file:
 
 ```js
 generator client {
@@ -53,3 +95,29 @@ model Post {
   views      Int      @default(0)
 }
 ```
+
+Notice how `url` is set using an [environment variable](https://en.wikipedia.org/wiki/Environment_variable)? This ensures **privacy** and ***portability***. We can have a different database for development and production.
+
+In `.env`, define the variable like this:
+
+```js
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
+```
+
+The model `Post` defines the shape of a record holding the viewcount for a specific blog post. Each **Prisma Model** maps to a **PostgreSQL Table**.
+
+Each Post has a unique String field `slug` which we use to identify it, which is why it has the `@id` attribute.
+
+The field `views` is the integer number of hits a post has. The `@default` attribute defines the default value as 0, since the view count starts at 0 when a post is first recorded in the database.
+
+Now, we can map the data model to the database schema, we use `prisma migrate`.
+
+```text
+$  npx prisma migrate dev --name init
+```
+
+This creates a SQL migration file, and runs it against the database.
+
+We're now ready to interact with the database :raised_hands:!
+
+# <Spicy>2. </Spicy> 
