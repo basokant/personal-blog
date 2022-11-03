@@ -9,7 +9,7 @@ const Footer = () => {
             <Logo />
             <div className={styles.links}>
                 <Link href="/posts">Posts</Link>
-                <a href="basokant_resume_april2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
+                <a href="/basokant_resume_august2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
             </div>
             <div className={styles.socialLinks}>
                 <a href="https://github.com/basokant" target="_blank" rel="noreferrer">

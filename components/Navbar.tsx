@@ -25,14 +25,14 @@ const Navbar = ( {isDesktop, background, sticky}: NavbarProps ) => {
             { isDesktop && 
                 <div className={styles.links}>
                     <Link className={styles.link} href="/blog">Blog</Link>
-                    <a className={styles.link} href="/basokant_resume_april2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
+                    <a className={styles.link} href="/basokant_resume_august2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
                 </div>
             }
 
             { !isDesktop && 
                 <div className={styles.links}>
                     <Link className={styles.link} href="/blog">Blog</Link>
-                    <a className={styles.link} href="/basokant_resume_april2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
+                    <a className={styles.link} href="/basokant_resume_august2022.pdf" target="_blank" rel="noreferrer">Resumé</a>
                 </div>
             }
         </nav>

@@ -17,7 +17,7 @@ const Hero = ({isDesktop}: HeroProps) => {
                 <a className={styles.btn} href="mailto:basokanthan@gmail.com">
                     <Mail className={styles.mailIcon} strokeWidth="3px"/>{ isDesktop && "Let's Chat" }
                 </a>
-                <a className={styles.link} href="/basokant_resume_april2022.pdf" target="_blank" rel="noreferrer">PDF Resumé</a>
+                <a className={styles.link} href="/basokant_resume_august2022.pdf" target="_blank" rel="noreferrer">PDF Resumé</a>
                 <br />
                 <a href="https://github.com/basokant" target="_blank" rel="noreferrer">
                     <img className={styles.socialBtn} src="/github.svg" alt="My GitHub" />
