@@ -31,7 +31,7 @@ h1, p, li, ul, ol, label {
 }
 
 p, li, ul {
-  line-height: 1.6em;
+  line-height: 1.4em;
   font-size: 1.1em;
 }
 
@@ -39,9 +39,8 @@ h2 {
   color: $component-bg;
 }
 
-h1, h2, h3 {
+h1, h2 {
   padding: 5px 0;
-  margin: 10px 0;
 }
 
 hr {
@@ -128,13 +127,9 @@ code {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
-  padding: 5px 10px;
+  padding: 6px 0px;
   margin: 20px 0px;
   border-radius: 11px;
-}
-
-pre code {
-  padding: 0px;
 }
 
 /* poppins-100 - latin */
