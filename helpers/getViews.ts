@@ -17,7 +17,7 @@ export default async function getViews(slug: string) {
 
     const views = main()
         .catch((e)=> {
-            throw e
+            return
         })
         .finally(async () => {
             await prisma.$disconnect()

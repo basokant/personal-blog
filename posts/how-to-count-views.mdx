@@ -1,6 +1,6 @@
 ---
 title: "How to Count Views (with Next.js, PostgreSQL, and Prisma)"
-date: "2022-08-13"
+date: "2022-08-19"
 description: "An introduction to Prisma, PostgreSQL, Heroku Postgres, and Next.js API routes wrapped in a tutorial on how to build a view counter component for your website."
 category: "Blog"
 isPublished: false
@@ -14,7 +14,7 @@ Counting the number of hits on a page seems like an easy enough task, but it req
     1. **Relational (or SQL)** Databases
     2. **NoSQL** Databases
 
-    [MongoDB](https://www.mongodb.com/), a NoSQL, Document Database solution has a great article explaining the differences between these two [here](https://www.mongodb.com/nosql-explained/nosql-vs-sql).
+    Here's a great article explaining the differences, benefi between these two [here](https://www.mongodb.com/nosql-explained/nosql-vs-sql).
 </Info>
 
 For the purpose of this website/blog, I chose to use a **SQL Database**, and more specifically [**PostgreSQL**](https://www.postgresql.org/) (a flavour of SQL) for a number of reasons.
@@ -35,7 +35,50 @@ For the purpose of this website/blog, I chose to use a **SQL Database**, and mor
 
 # <Spicy>1. </Spicy> The Setup
 
-Every database needs some sort of blueprint that describes how the data organization. This is called the <Spicy>schema.</Spicy> 
+## PostgreSQL Database
+
+First, we need a PostgreSQL database server running to interact with. For development, we can host a PSQL db locally. [Here](https://www.prisma.io/dataguide/postgresql/setting-up-a-local-postgresql-database) are instructions for doing this on Windows/macOS/Linux. 
+
+On macOS, you can also use [Postgres.app](https://postgresapp.com/), a PostgreSQL installation packaged as a macOS app.
+
+To connect to the database in our application, we need a **connection string**, which should be in the following format:
+
+```text
+postgresql://<username>:<password>@<hostname>:<port>/<database>
+```
+
+We'll need this string later.
+
+## Prisma
+
+**Prisma** is an ORM for Node.js and TypeScript (use TS, it enables cool things like *autocompletion*). It makes interacting with a database incredibly simple.
+
+Install Prisma using your package manager of choice:
+
+```text
+$  npm install prisma
+```
+
+Now we can invoke the Prisma CLI with the prefix `npx`. Run the initial command:
+
+```text
+$  npx prisma init
+```
+
+This should
+
+- create a new `prisma` directory with the `schema.prisma` file.
+- create the `.env` file in the root directory.
+
+Every database needs some sort of blueprint that describes how the data organization. This is called the **schema.** 
+
+This differs from the Prisma **schema file**, which is a config file for Prisma. It consists of 3 parts:
+
+1. **Data Sources** ~ Database and connection details.
+2. **Generators** ~ Specifies what clients should be generated based on the data model.
+3. **Data Model** ~ specifies the shape of the data.
+
+Here's my `prisma.schema` file:
 
 ```js
 generator client {
@@ -66,16 +109,302 @@ The model `Post` defines the shape of a record holding the viewcount for a speci
 
 Each Post has a unique String field `slug` which we use to identify it, which is why it has the `@id` attribute.
 
-The field `views` is the integer number of hits a post has. The `@default` attribute defines the default value as 0, since the view count starts at 0 when a post is first recorded in the database.
+The field `views` is the integer of hits a post has. The `@default` attribute defines the default value as 0, since the view count starts at 0 when a post is first recorded in the database.
 
-Now, we can map the data model to the database schema, we use `prisma migrate`.
+Now, we can map the data model to the database schema, we use `prisma migrate` .
 
 ```text
 $  npx prisma migrate dev --name init
 ```
 
-This creates a SQL migration file, and runs it against the database.
+This creates an SQL migration file, and runs it against the database.
 
-We're now ready to interact with the database :raised_hands:!
+We're ready to interact with the database in our app :raised_hands:.
 
-# <Spicy>2. </Spicy>
+# <Spicy>2. </Spicy> Interacting with the Database
+
+*Prisma Client* allows us to write queries to read and write data to our database.
+Every query using Prisma Client has the following boilerplate:
+
+```js
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+async function main() {
+  // ... you will write your Prisma Client queries here
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
+```
+
+A query to read all `Post` records from the database would look something like this:
+
+```js
+async function main() {
+  // ... you will write your Prisma Client queries here
+  const allPosts = await prisma.post.findMany();
+
+  console.log(allPosts);
+}
+```
+
+<Info>
+  *Prisma Client* features an intuitive query builder API which we'll be using. We're only going to need the basics of the API, but if you want to learn more, Prisma provides clear and detailed [documentation](https://www.prisma.io/docs/concepts/components/prisma-client/crud).
+
+  In web development, <Sparkles rainbow>good documentation is a good friend.</Sparkles>
+</Info>
+
+For our purposes, we have 2 types of interactions with the database:
+
+1. *Retrieving* the number of views of a specific post.
+2. *Registering* a new view for a specific post.
+
+## Retrieving Views: `getViews`
+
+Let's create a new function called `getViews` which will
+
+- Ask for a post's slug.
+- Tell us the number of views that post has.
+
+We'll use the same query boilerplate as above. We've already used the `findMany()` query to find all the `Post` records, but what about only finding a unique post based on the `slug`? This is where `prisma.post.findUnique()` query comes in. [Read more](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#findunique)
+
+```js
+async function getViews(slug) {
+  const prisma = new PrismaClient()
+
+  async function main() {
+    const post = await prisma.post.findUnique({
+      where: {
+        slug: slug,
+      },
+    })
+    
+    const views = post?.views;
+
+    return views;
+  }
+
+  const views = main()
+    .catch((e) => {
+      throw e
+    })
+    .finally(async () => {
+      await prisma.$disconnect()
+    })
+
+  return views;
+}
+```
+
+## Registering a View: `registerView`
+
+Let's create another function called `registerView` which will
+
+- Ask for a post's slug.
+- Update the post's count on the database.
+
+To update the number of hits for a post, we can use the `prisma.post.update()` query. [Read more](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#update).
+
+It's very similar to the `findUnique()` query, except we also pass in `data` to the query which specifies how to update the unique post. But how do we increment the `view` count? We *could* technically call our `getViews()` function, and then update `views`. 
+
+Alternatively, we can use Prisma's declarative **Atomic number operations**, namely the `increment` operator. [Read more](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#atomic-number-operations).
+
+Here's how that'd look like:
+
+```js
+import { PrismaClient } from "@prisma/client";
+import getViews from "./getViews";
+
+export default async function registerView(slug: string) {
+    const prisma = new PrismaClient()
+
+    async function main() {
+        const updatePost = await prisma.post.update({
+            where: {
+                slug: slug,
+            },
+            data: {
+                views: {
+                    increment: 1
+                }
+            }
+        })
+        console.log(updatePost);
+    }
+
+    main()
+        .catch((e)=> {
+            throw e
+        })
+        .finally(async () => {
+            await prisma.$disconnect()
+        })
+        
+}
+```
+
+Awesome! We're ready to make an API endpoint in Next.js.
+
+
+# <Spicy>3.</Spicy> Creating the API
+
+
+**Next.js** is a fullstack framework that powers this blog, and provides an easy out of the box way to create a simple [RESTful API](https://www.redhat.com/en/topics/api/what-is-a-rest-api) using <Sparkles>API Routes</Sparkles>.
+
+<Accordion title="What the heck is an API?">
+  An **API** (Application Programming Interface) acts as an intermediary between two applications or entities in an application.
+
+  In our case, we want an easy way to interact with the database from the front-end (our website/client). 
+  
+  We can "hook into" `http` requests to send back informative responses that can be used in our app.
+</Accordion>
+
+Any file in the `pages/api` directory maps to a `/api/*` endpoint, everything to get this set up is conveniently handled by Next. We can even create [dynamic routes](https://nextjs.org/docs/api-routes/dynamic-api-routes), which allows us to create routes like:
+
+`GET api/posts/how-to-count-views` (which would get the viewcount for this blog post, hopefully it's in the triple digits :sunglasses:).
+
+Let's create a dynamic route by creating a new file at `pages/api/posts/[slug].js`.
+
+There's very little boilerplate needed for defining a route in Next. We define a route by exporting a handler function for it:
+
+```js
+export default function handler(req, res) {
+  // Some code to find out how many views a post has.
+
+  // Send a response telling the client what the view count is 147.
+  res.status(200).json({ count: '147' })
+}
+```
+
+The `req` object contains a `query` field which holds all query parameters from the request, including the `slug`.
+
+We want to optionally register a view for the post depending on the request. In HTTP, this kind of request should use the `POST` method as it updates a resource on the back-end. The `req` object also has a `method` field that we can check.
+
+Here's a simple layout for this handler:
+
+```js
+import getViews from "../../../helpers/getViews";
+import registerView from "../../../helpers/registerView";
+
+export default async function handler(req) {
+    const slug = req.query.slug.toString();
+
+    // if no slug is given in the request.
+    if (!slug) {
+        res.status(400).json({ message: "empty slug" })
+    }
+    
+    const count = await getViews(slug);
+
+    if (req.method == 'POST') {
+        await registerView(slug);
+    }
+
+    res.status(200).json({ count: count });
+}
+```
+
+
+# <Spicy>4.</Spicy> Creating the View Counter
+
+Now that we can request the number of views of a given post, we can make our lives easier by grouping the request logic, as well as the structure and appearance of the counter! 
+
+This is where React components can become so *<Sparkles>POWERFUL</Sparkles>*, even in a simple blog. We want to be able to declaritively place a view counter in a page of our site like so:
+
+
+```js
+...
+<ViewCounter slug={"how-to-count-views"}/>
+...
+```
+
+Which should place it on the page like so:
+
+<ViewCounter slug={"how-to-count-views"}/>
+
+<Spicy>psst...</Spicy> Reload the page to see the view count increment.
+
+React's [useEffect](https://beta.reactjs.org/apis/react/useEffect#useeffect) hook will allow us to request the views from our backend as soon as the component is mounted into the virtual DOM.
+
+We also need to represent the view count as state of this component. This allows us to have a sort of loading state for the component. Obviously we use React's [useState](https://beta.reactjs.org/apis/react/useState) hook for this. We'll intialize the views to 0, but render `–––` instead of the views
+
+To make and resolve the request, we use the typical [fetch](https://javascript.info/fetch) promise chain.
+
+For the eye icon, I used [react-feather](https://www.npmjs.com/package/react-feather), a collection of icons as React components based on [feather icons](https://feathericons.com/).
+
+```js
+const ViewCounter = ({slug}: {slug; string}) => {
+  const [views, setViews] = useState(0);
+
+  useEffect(() => {
+    fetch(`/api/posts/${slug}`)
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data);
+          setViews(data.count);
+      })
+
+      const registerView = () => {
+          fetch(`/api/posts/${slug}`, {
+              method: 'POST',
+          });
+      }
+
+      registerView();
+  }. []);
+
+  return (
+    <div className="container">
+      <span>{(views ?? 0) ? views.toLocaleString() : "–––"}</span>
+      <Eye />
+    </div>
+  )
+
+}
+```
+
+All we need to do is add some styling using your preferred solution. I used CSS modules.
+
+```scss
+.container {
+  padding: 10px;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #5D81AB;
+  font-family: Fira Code;
+  border-radius: 10px;
+
+  // flexbox was used for positioning
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+```
+
+And that's it! We created our very own view counter! :partying_face:
+
+# <Spicy>5.</Spicy> The Deployment Set Up
+
+The only thing we have left to do is to set up our deployment. This seems like quite the challenge. If you've ever looked into hosting a database, then you've probably encountered a couple of database-as-a-service solutions.
+
+The first easy and initially free way to deploy a database was offered by Heroku. It would've been easy to recommend them, but Heroku decided to kill their free tier.
+
+Thankfully, there are so many more options:
+
+<YouTube url="https://www.youtube.com/watch?v=prjMJtXCR-g"/>
+
+I'd recommend [Railway](https://railway.app/), spinning up a PostgreSQL database is super fast and simple! You don't even need to create an account, and the free tier offers 500 hours per month.
+
+Now, in your deployment you just need to create a new `env` variable called `DATABASE_URL` and paste the connection URL from Railway.
+
+To do this in Vercel, follow [these instructions](https://vercel.com/docs/concepts/projects/environment-variables#declare-an-environment-variable).
