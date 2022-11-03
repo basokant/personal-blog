@@ -36,7 +36,7 @@ const Blog = ({ posts, categories }: BlogProps) => {
         const params = new URLSearchParams(url.search);
         setInput(params.get("q") || "");
     }, [])
-    
+
     const matches = posts.filter(element => {
         const keyword = input.toLowerCase();
         if (element.data.title.toLowerCase().includes(keyword) || element.data.description.toLowerCase().includes(keyword) || element.data.category.toLowerCase().includes(keyword)) {

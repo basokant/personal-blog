@@ -83,7 +83,8 @@ const Post = ({ mdxSource, frontmatter }: PostProps) => {
     CodePen, 
     Replit, 
     AudioPlayer,
-    Icon
+    Icon,
+    ViewCounter
   };
 
   return (
