@@ -29,7 +29,7 @@ const ViewCounter = ({slug}: {slug: string}) => {
         <>
             <Count>
                 <span>{(views ?? 0) ? views.toLocaleString() : "–––"}</span>
-                <Eye />
+                <Eye style={{color: ""}}/>
             </Count>
         </>
     )

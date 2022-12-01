@@ -55,7 +55,7 @@ In your React repository, create a new file called `Signature.jsx` (or `Signatur
 
 The functional component boilerplate should look like so:
 
-```jsx
+```js
 export default function Signature() {
     return (
         <p>Hello World</p>
@@ -67,7 +67,7 @@ Of course, this simply renders "Hello World" if added to the component tree. We 
 
 If you open the SVG of the signature in a text editor, you should see a familiar HTML/XML like markup in this format:
 
-```xml
+```html
 <svg 
     width="108" 
     height="89" 
@@ -125,13 +125,13 @@ It's time to breathe some life into our signature!
 
 If you haven't already, install `framer-motion` using your preferred package manager:
 
-```zsh
+```bash
 npm i framer-motion
 ```
 
 then add an import for the `motion` component(s):
 
-```jsx
+```js
 import { motion } from "framer-motion"
 ```
 
@@ -183,7 +183,7 @@ const variants = {
 <br /><br />
 I want the signature to be hidden initially, and gradually become more visible. We specify this with the `initial` and `animate` props.
 
-```js
+```jsx
 <motion.path
     d="..."
 

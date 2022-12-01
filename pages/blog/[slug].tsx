@@ -21,8 +21,7 @@ import rehypeAutolinkHeadings from "remark-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkSlug from 'remark-slug';
 import remarkAutoLinkHeadings from 'remark-autolink-headings';
-import remarkPrism from "remark-prism";
-import rehypePrism from "rehype-prism";
+import rehypePrism from "rehype-prism-plus";
 
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -169,7 +168,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             [
               rehypePrism,
               {
-                plugins: [
+                "languages": ["javascript", "typescript", "css", "html", "json", "jsx", "tsx"],
+                "plugins": [
                   "command-line",
                   "diff-highlight",
                   "inline-color",
