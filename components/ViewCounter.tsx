@@ -1,24 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Eye } from "react-feather";
 
 const ViewCounter = ({slug}: {slug: string}) => {
 
     const [views, setViews] = useState(0);
+    const dataFetchedRef = useRef(false);
+
+    const registerView = () => {
+        fetch(`/api/posts/${slug}`, {
+            method: 'POST',
+        });
+    }
 
     useEffect(() => {
+        if (dataFetchedRef.current) return;
+        dataFetchedRef.current = true;
+        
         fetch(`/api/posts/${slug}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
                 setViews(data.count);
             })
-
-        const registerView = () => {
-            fetch(`/api/posts/${slug}`, {
-                method: 'POST',
-            });
-        }
 
         registerView();
     }, []);
